@@ -124,3 +124,18 @@ void monitor_write_hex(uint32_t n) {
     monitor_write_base(n,16);
 }
 
+void monitor_color_test() {
+    for (int i = 0; i < HEIGHT; i++) 
+        for (int j = 0; j < WIDTH; j++)
+            monitor_put_color(i % 15);
+}
+
+static uint16_t color_num = 0;
+
+void updateScreen() {
+    for (int i = 0; i < HEIGHT ;i++) 
+        for (int j = 0; j < WIDTH; j++)
+            monitor_put_color(color_num % 16);
+    color_num++;
+}
+
