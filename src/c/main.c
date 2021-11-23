@@ -4,6 +4,7 @@
 #include "gdt.h"
 #include "idt.h"
 #include "timer.h"
+#include "keyboard.h"
 
 int main(struct multiboot *mboot_ptr) {
     init_gdt();
@@ -11,5 +12,6 @@ int main(struct multiboot *mboot_ptr) {
     monitor_clear();
     asm volatile("sti");
     init_timer(50);
+    init_keyboard();
     return 0xDEADBABA;
 }
