@@ -11,6 +11,7 @@ int main(struct multiboot *mboot_ptr) {
     init_idt();
     monitor_clear();
     asm volatile("sti");
+    monitor_color_test();
     init_timer(50);
     init_keyboard();
     return 0xDEADBABA;

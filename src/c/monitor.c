@@ -130,12 +130,10 @@ void monitor_color_test() {
             monitor_put_color(i % 15);
 }
 
-static uint16_t color_num = 0;
 
 void updateScreen() {
-    for (int i = 0; i < HEIGHT ;i++) 
-        for (int j = 0; j < WIDTH; j++)
-            monitor_put_color(color_num % 16);
-    color_num++;
+    for (int i = 0; i < HEIGHT; i++) {
+        memset(&video_memory[((i + 1) % HEIGHT) * WIDTH],BLANK,WIDTH);
+    }
 }
 

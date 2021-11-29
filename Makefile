@@ -58,7 +58,8 @@ dirs:
 	@mkdir -p $(OBJS_DIR)
 
 QEMU = qemu-system-i386 
-QEMU_FLAGS = -kernel $(TARGET) 
+QEMU_FLAGS-KERNEL = -kernel $(TARGET) 
+
 QEMU_MONITOR_FLAG = -monitor stdio
 
 	
@@ -66,7 +67,9 @@ QEMU_MONITOR_FLAG = -monitor stdio
 qemu:
 	$(MAKE) all --no-print-directory
 	@echo -e "$(COLOUR_GREEN)[X] starting qemu$(COLOUR_END)"
-	$(QEMU) $(QEMU_FLAGS)
+	$(QEMU) $(QEMU_FLAGS-KERNEL)
+
+	
 
 .PHONY: qemu-monitor
 qemu-monitor:
