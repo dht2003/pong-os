@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if test "$#" -eq 1; then
+    if grub-file --is-x86-multiboot $1; then 
+        echo $1 multiboot confirmed
+    else
+        echo the file is not multiboot
+    fi
+else 
+    echo Usage: ./verify_mboot [MBOOT_FILE]
+fi
