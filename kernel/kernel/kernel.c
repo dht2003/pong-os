@@ -6,7 +6,7 @@
 #include "timer.h"
 #include "keyboard.h"
 
-int main(struct multiboot *mboot_ptr) {
+int kmain(struct multiboot *mboot_ptr) {
     init_gdt();
     init_idt();
     monitor_clear();

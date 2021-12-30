@@ -2,7 +2,7 @@
 #define ISR_H
 
 #include <stdint.h>
-#include "common.h"
+#include <arch/i386/ports.h>
 
 // A few defines to make life a little easier
 #define IRQ0 32

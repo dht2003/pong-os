@@ -1,6 +1,6 @@
-#include "common.h"
-#include "isr.h"
-#include "monitor.h"
+#include <kernel/tty.h>
+#include <arch/i386/ports.h>
+#include <arch/i386/isr.h>
 
 isr_t interrupt_handlers[256];
 

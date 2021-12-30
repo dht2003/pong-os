@@ -2,9 +2,9 @@
 
 if test "$#" -eq 1; then
     if grub-file --is-x86-multiboot $1; then 
-        echo $1 multiboot confirmed
+        echo -e "\033[0;32m$1 multiboot confirmed\033[0m"
     else
-        echo the file is not multiboot
+        echo -e "\033[0;31m$1 is not multiboot\033[0m"
     fi
 else 
     echo Usage: ./verify_mboot [MBOOT_FILE]

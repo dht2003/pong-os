@@ -1,7 +1,5 @@
-#ifndef MONITOR_H
-#define MONITOR_H
-
-#include "common.h"
+#ifndef ARCH_I386_VGA_H
+#define ARCH_I386_VGA_H
 
 typedef enum {
 	VGA_COLOR_BLACK = 0,
@@ -22,23 +20,4 @@ typedef enum {
 	VGA_COLOR_WHITE = 15,
 } vga_color;
 
-
-void monitor_put(char c);
-
-void monitor_put_color(vga_color color);
-
-void monitor_clear();
-
-void monitor_write(string s);
-
-void monitor_write_base(uint32_t n,uint32_t base);
-
-void monitor_write_hex(uint32_t n);
-
-void monitor_write_dec(uint32_t n);
-
-void monitor_color_test();
-
-void updateScreen();
-
-#endif
+#endif 

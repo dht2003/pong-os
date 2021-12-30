@@ -1,12 +1,11 @@
-#include "timer.h"
-#include "isr.h"
-#include "monitor.h"
+#include <kernel/tty.h>
+#include <arch/i386/timer.h>
+#include <arch/i386/isr.h>
 
 uint32_t tick = 0;
 
 static void timer_callback(registers_t regs)
 {
-    updateScreen();
     tick++;
 }
 

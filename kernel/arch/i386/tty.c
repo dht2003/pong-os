@@ -1,4 +1,7 @@
-#include "monitor.h"
+#include <kernel/tty.h>
+
+#include <arch/i386/ports.h>
+#include <arch/i386/vga.h>
 
 #define FRAME_BUFFER_ADDR 0xB8000
 #define HEIGHT 25
@@ -13,15 +16,15 @@ uint16_t *video_memory = (uint16_t *) FRAME_BUFFER_ADDR;
 uint8_t cursorX = 0;
 uint8_t cursorY = 0;
 
-const uint8_t blankAttributeByte = (VGA_COLOR_BLACK << 4) | (fourBitMask(VGA_COLOR_WHITE));
-const uint16_t BLANK =  ' ' | (lEightShift(blankAttributeByte));
+const uint8_t blankAttributeByte = (VGA_COLOR_BLACK << 4) | (VGA_COLOR_WHITE & 0x0F);
+const uint16_t BLANK =  ' ' | (blankAttributeByte << 8);
 
 static void move_cursor() {
     uint16_t curserLocation = cursorY * 80 + cursorX;
     outb(0x3d4,14);
-    outb(0x3d5,byteMask((rEightShift(curserLocation))));
+    outb(0x3d5,0xFF &((curserLocation >> 8)));
     outb(0x3d4,15);
-    outb(0x3d5,byteMask(curserLocation));
+    outb(0x3d5,0xFF  &(curserLocation));
 }
 
 static void scroll() {
@@ -39,7 +42,7 @@ void monitor_put(char c) {
     uint8_t backgroundColor = VGA_COLOR_BLACK;
     uint8_t foreGroundColor = VGA_COLOR_WHITE;
 
-    uint8_t attributeByte = (backgroundColor << 4) | (fourBitMask(foreGroundColor));
+    uint8_t attributeByte = (backgroundColor << 4) | (foreGroundColor & 0x0F);
 
     if (c == BACK_SPACE && cursorX)  
         cursorX--;
@@ -56,7 +59,7 @@ void monitor_put(char c) {
     
     else if(c >= ' ') {
         uint16_t location = cursorY*WIDTH + cursorX;
-        video_memory[location] = c | (lEightShift(attributeByte));
+        video_memory[location] = c | (attributeByte << 8);
         cursorX++;
     }
 
@@ -70,9 +73,9 @@ void monitor_put(char c) {
     move_cursor();
 }
 
-void monitor_put_color(vga_color color) {
-    uint8_t colorBlankAttributeByte = (color << 4) | (fourBitMask(VGA_COLOR_WHITE));   
-    uint16_t colorBlank =  ' ' | (lEightShift(colorBlankAttributeByte));
+void monitor_put_color(uint8_t color) {
+    uint8_t colorBlankAttributeByte = (color << 4) | (VGA_COLOR_WHITE & 0x0F);   
+    uint16_t colorBlank =  ' ' | (colorBlankAttributeByte << 8);
     uint16_t location = cursorY * WIDTH + cursorX;
     video_memory[location] = colorBlank;
     cursorX++;
@@ -92,7 +95,7 @@ void monitor_clear() {
     move_cursor();
 }
 
-void monitor_write(string s) {
+void monitor_write(const char * s) {
     int i = 0;
     while (s[i])
         monitor_put(s[i++]);
@@ -131,9 +134,4 @@ void monitor_color_test() {
 }
 
 
-void updateScreen() {
-    for (int i = 0; i < HEIGHT; i++) {
-        memset(&video_memory[((i + 1) % HEIGHT) * WIDTH],BLANK,WIDTH);
-    }
-}
 

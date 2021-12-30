@@ -2,7 +2,7 @@
 #define IDT_H
 
 #include <stdint.h>
-#include "common.h"
+#include <arch/i386/ports.h>
 
 struct idt_entry_struct {
     uint16_t isr_low;

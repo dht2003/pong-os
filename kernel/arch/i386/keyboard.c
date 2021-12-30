@@ -1,4 +1,4 @@
-#include "keyboard.h"
+#include <arch/i386/keyboard.h>
 
 static void keyboard_callback() {
     uint8_t code =  inb(0x60);
