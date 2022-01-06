@@ -87,6 +87,8 @@ LDFLAGS = -T $(LINK_SCRIPT)  -m elf_i386
 
 kernel: $(KERNEL_TARGET)
 
+	@mkdir -p $(OBJS_DIR)
+
 $(OBJS_DIR)/%.o  : $(KERNEL_ARCH_DIR)/%.s 
 	@echo -e "$(COLOUR_GREEN)Compiling kernel asm file $< -> $@$(COLOUR_END)"
 	$(AS) $(NASM_FLAGS) $< -o $@
