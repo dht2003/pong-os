@@ -1,6 +1,8 @@
 #include <arch/i386/keyboard.h>
 #include <stdio.h>
 
+#define CAPS_SCANCODE 0x3A
+
 keyboard_state_t keyboard_state = {.last_pressed=0,.caps=false,.buffer={.top=-1}};
 
 unsigned char lower_kbdus[128] =
@@ -90,7 +92,7 @@ static void keyboard_callback() {
 
     }
     else {
-        if (scancode == 0x3A) 
+        if (scancode == CAPS_SCANCODE) 
             keyboard_state.caps = !keyboard_state.caps;
         unsigned char input = (keyboard_state.caps) ? upper_kbdus[scancode] : lower_kbdus[scancode];
         putchar(input);
